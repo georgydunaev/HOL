@@ -7,7 +7,7 @@
 **Created:** `2026-10-27T22:48:44Z`  
 
 ## Task Description
-Update legacy Isabelle/HOL theory dependencies to use structured theory imports and remove deprecated lemma aliases.
+Update legacy HOL4 theory script dependencies to use structured theory imports in *Script.sml and eliminate deprecated theorem bindings.
 
 ## Execution Guidelines
 1. Work autonomously in `HOL/`.

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import sys
 import json
@@ -58,10 +58,10 @@ with open(sys.argv[1]) as f:
 averageRecall = float(averageRecall) / count
 averagePrecision = float(averagePrecision) / count
 averageF1 = float(averageF1) / count
-print "Number of questions: " + str(count)
-print "Average recall over questions: " + str(averageRecall)
-print "Average precision over questions: " + str(averagePrecision)
-print "Average f1 over questions: " + str(averageF1)
+print("Number of questions: " + str(count))
+print("Average recall over questions: " + str(averageRecall))
+print("Average precision over questions: " + str(averagePrecision))
+print("Average f1 over questions: " + str(averageF1))
 averageNewF1 = 2 * averageRecall * averagePrecision / (averagePrecision + averageRecall)
-print "F1 of average recall and average precision: " + str(averageNewF1)
+print("F1 of average recall and average precision: " + str(averageNewF1))
 

@@ -1,7 +1,7 @@
 ifneq($(OS),winNT)
 
 INCLUDES = $(HOLDIR)/tools/unicode-grep
-CLINE_OPTIONS = --no_overlay
+CLINE_OPTIONS = --no_overlay --poly_not_hol
 
 .PHONY: all
 

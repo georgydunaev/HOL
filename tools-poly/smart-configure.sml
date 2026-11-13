@@ -211,7 +211,9 @@ val (poly,polycopt) =
 
 val polyc =
     case polycopt of
-        NONE => die ("Couldn't find polyc executable\n" ^ polyinstruction)
+        NONE => (case which "polyc" of
+                   SOME p => p
+                 | NONE => die ("Couldn't find polyc executable\n" ^ polyinstruction))
       | SOME p => p
 
 val polylibsister = let
@@ -244,8 +246,24 @@ val polylibinstruction =
 val polymllibdir =
     if polymllibdir = "" then let
         val _ = determining "polymllibdir"
+        val candidates = let
+          val standard_subs =
+            ["x86_64-linux-gnu", "lib64", "aarch64-linux-gnu", "i386-linux-gnu",
+             "arm-linux-gnueabihf", "arm-linux-gnu", "riscv64-linux-gnu",
+             "powerpc64le-linux-gnu", "s390x-linux-gnu"]
+          val dynamic_subs =
+            if OS.FileSys.isDir polylibsister handle OS.SysErr _ => false then
+              List.filter (fn d => OS.FileSys.isDir (OS.Path.concat(polylibsister, d))
+                                   handle OS.SysErr _ => false)
+                          (readdir polylibsister handle OS.SysErr _ => [])
+            else []
+        in
+          polylibsister ::
+          List.map (fn sub => OS.Path.concat(polylibsister, sub))
+                   (standard_subs @ dynamic_subs)
+        end
       in
-        case check_libpoly polylibsister of
+        case findpartial check_libpoly candidates of
           SOME c => c
         | NONE => die ("\n\nLooked in poly's sister lib directory "^
                        polylibsister ^
