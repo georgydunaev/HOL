@@ -1,20 +1,16 @@
-open HolKernel boolLib Parse
-open Parse BasicProvers metisLib simpLib
-open arithmeticTheory pairTheory combinTheory
+open HolKernel Parse boolLib BasicProvers metisLib simpLib numLib
+     arithmeticTheory pairTheory combinTheory;
 
 val _ = new_theory "logroot";
 
 (* ----------------------------------------------------------------------- *)
 
-fun AC_THM term = CONV_RULE bool_EQ_CONV (AC_CONV (MULT_ASSOC, MULT_COMM) term)
-val arith_ss = srw_ss() ++ numSimps.old_ARITH_ss
-val ARITH_ss = numSimps.ARITH_ss
+fun AC_THM term = CONV_RULE bool_EQ_CONV (AC_CONV (MULT_ASSOC, MULT_COMM) term);
+val arith_ss = srw_ss() ++ numSimps.ARITH_ss;
+val ARITH_ss = numSimps.ARITH_ss;
 
-fun DECIDE_TAC (g as (asl, _)) =
-   (MAP_EVERY UNDISCH_TAC (filter numSimps.is_arith_asm asl)
-    THEN CONV_TAC Arith.ARITH_CONV) g
-
-val DECIDE = EQT_ELIM o Arith.ARITH_CONV
+val DECIDE_TAC = numLib.DECIDE_TAC;
+val DECIDE = numLib.DECIDE;
 
 val Define = TotalDefn.Define
 val zDefine = Lib.with_flag (computeLib.auto_import_definitions, false) Define

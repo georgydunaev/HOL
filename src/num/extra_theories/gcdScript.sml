@@ -1,19 +1,15 @@
-open HolKernel Parse boolLib TotalDefn BasicProvers
+open HolKernel Parse boolLib TotalDefn BasicProvers numLib
      arithmeticTheory dividesTheory simpLib boolSimps
      Induction;
 
-val arith_ss = bool_ss ++ numSimps.ARITH_ss
-
-val ARW = RW_TAC arith_ss
-
-val DECIDE = Drule.EQT_ELIM o Arith.ARITH_CONV;
-
-fun DECIDE_TAC (g as (asl,_)) =
-  ((MAP_EVERY UNDISCH_TAC (filter numSimps.is_arith asl) THEN
-    CONV_TAC Arith.ARITH_CONV)
-   ORELSE tautLib.TAUT_TAC) g;
-
 val _ = new_theory "gcd";
+
+val arith_ss = bool_ss ++ numSimps.ARITH_ss;
+
+val ARW = RW_TAC arith_ss;
+
+val DECIDE = numLib.DECIDE;
+val DECIDE_TAC = numLib.DECIDE_TAC;
 
 val IS_GCD = Q.new_definition
  ("is_gcd_def",

@@ -3,7 +3,7 @@ open HolKernel boolLib Parse
 open integerTheory intSyntax dividesTheory
 open simpLib boolSimps BasicProvers
 
-val arith_ss = bool_ss ++ numSimps.old_ARITH_ss
+val arith_ss = bool_ss ++ numSimps.ARITH_ss
 
 val _ = new_theory "int_arith";
 val _ = ParseExtras.temp_loose_equality()

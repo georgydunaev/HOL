@@ -2,7 +2,7 @@
 (* Fundamental theorem of arithmetic for num.                                *)
 (*---------------------------------------------------------------------------*)
 
-open HolKernel Parse boolLib bossLib simpLib BasicProvers metisLib
+open HolKernel Parse boolLib bossLib simpLib BasicProvers metisLib numLib
      bagTheory dividesTheory arithmeticTheory;
 
 (* Interactive
@@ -20,14 +20,9 @@ val std_ss =
       numSimps.REDUCE_ss ++ sumSimps.SUM_ss ++ combinSimps.COMBIN_ss ++
       numSimps.ARITH_RWTS_ss);
 
-val arith_ss = std_ss ++ numSimps.ARITH_DP_ss
+val arith_ss = std_ss ++ numSimps.ARITH_DP_ss;
 val DECIDE = numLib.ARITH_PROVE;
-
-fun DECIDE_TAC (g as (asl,_)) =
-((MAP_EVERY UNDISCH_TAC (filter numSimps.is_arith_asm asl)
-      THEN numLib.ARITH_TAC)
- ORELSE
- tautLib.TAUT_TAC ORELSE NO_TAC) g;
+val DECIDE_TAC = numLib.DECIDE_TAC;
 
 val MULT_LEFT_CANCEL = Q.prove
 (`!m n p. 0 < m ==> ((m*n = m*p) = (n=p))`,

@@ -19,7 +19,7 @@ val _ = new_theory "ttt_demo";
 (* ttt ([],``(2 * x + 1 = 3) ==> (x = 1)``); *)
 val ex1 = store_thm("ex1",
   ``(2 * x + 1 = 3) ==> (x = 1)``,
-  asm_simp_tac (bool_ss ++ old_ARITH_ss ++ numSimps.REDUCE_ss) []
+  asm_simp_tac (bool_ss ++ ARITH_ss ++ numSimps.REDUCE_ss) []
   );
 
 (* --------------------------------------------------------------------------
@@ -31,7 +31,7 @@ open listTheory
 (* ttt ([],``(!n. f n = c) ==> (MAP f ls = REPLICATE (LENGTH ls) c)``); *)
 val ex2 = store_thm("ex2",
   ``(!n. f n = c) ==> (MAP f ls = REPLICATE (LENGTH ls) c)``,
-  asm_simp_tac (srw_ss () ++ boolSimps.LET_ss ++ ARITH_ss)) [LIST_EQ_REWRITE] >>
+  asm_simp_tac (srw_ss () ++ boolSimps.LET_ss ++ ARITH_ss) [LIST_EQ_REWRITE] >>
   metis_tac [EL_MAP, rich_listTheory.EL_REPLICATE]
   );
 
